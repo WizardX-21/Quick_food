@@ -1,0 +1,194 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* --- BUTTON COLORS: "Add to Cart" & Success Buttons --- */
+button.btn-success,
+.bg-success,
+.btn-success:active,
+.btn-success:focus,
+.btn-add-to-cart,
+button.add-to-cart {
+  background-color: #ff7043 !important;  /* Warm orange */
+  color: #fff !important;
+  border: none !important;
+  font-weight: bold;
+  border-radius: 7px !important;
+  box-shadow: 0 2px 8px rgba(255,112,67,0.09);
+  transition: background 0.18s;
+}
+button.btn-success:hover,
+.btn-add-to-cart:hover,
+button.add-to-cart:hover {
+  background-color: #ff5722 !important; /* Slightly deeper orange */
+}
+
+/* --- DROPDOWN (QUANTITY & SIZE) COLORS --- */
+.food-qty-dropdown,
+.food-size-dropdown,
+.form-select,
+select {
+  background: #fff3e0 !important;    /* Soft orange background */
+  border: 1.5px solid #ff9800 !important;
+  color: #ff5722 !important;
+  font-weight: 500;
+  border-radius: 8px !important;
+  transition: border 0.2s;
+  outline: none;
+}
+.food-qty-dropdown:focus,
+.food-size-dropdown:focus,
+select:focus {
+  border-color: #ff7043 !important;
+  box-shadow: 0 0 0 2px #ffccbc4d;
+}
+
+/* --- For Bootstrap .btn-outline-success (if you use) --- */
+.btn-outline-success {
+  color: #ff5722 !important;
+  border-color: #ff9800 !important;
+  background: transparent !important;
+}
+.btn-outline-success:hover,
+.btn-outline-success:active {
+  background: #ff7043 !important;
+  color: #fff !important;
+  border-color: #ff5722 !important;
+}
+
+/* --- Optional: Remove green from Bootstrap alerts etc. if used --- */
+.alert-success {
+  background-color: #ffe0b2 !important;
+  color: #ff7043 !important;
+  border-color: #ff9800 !important;
+}
+
+/* --- Fix for navbar z-index --- */
+.navbar {
+  z-index: 2000 !important;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+/* --- Dropdowns (quantity & size) --- */
+select,
+.form-select {
+  background: #23252b !important;        /* dark but not black */
+  color: #ffd4b0 !important;             /* warm, light orange */
+  border: 1.5px solid #393b40 !important;
+  border-radius: 7px !important;
+  font-weight: 500;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: border-color 0.18s;
+}
+select:focus,
+.form-select:focus {
+  border-color: #ff7043 !important;
+  color: #fff3e0 !important;
+}
+
+/* Option styling for light mode (for the dropdown menu) */
+select option,
+.form-select option {
+  background: #23252b !important;
+  color: #ff7043 !important;
+}
+
+/* --- Add to Cart Button (less bright, soft shadow) --- */
+button.btn-success,
+.btn-success,
+.btn-add-to-cart,
+button.add-to-cart {
+  background-color: #ff7043 !important;
+  color: #fff !important;
+  border: none !important;
+  font-weight: 600;
+  border-radius: 7px !important;
+  opacity: 0.97;
+  box-shadow: 0 2px 12px rgba(255,112,67,0.10);
+  transition: background 0.16s, opacity 0.15s;
+}
+button.btn-success:hover,
+.btn-add-to-cart:hover,
+button.add-to-cart:hover {
+  background: #ff5722 !important;
+  opacity: 1;
+}
+
+
+/* Card selects aesthetic */
+.orange-select {
+  background: #ffd6bc !important;      /* Light orange shade */
+  color: #d84315 !important;           /* Deep orange text */
+  border: none !important;
+  font-weight: 500;
+  min-width: 65px;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.orange-select:focus, .orange-select:active {
+  box-shadow: 0 0 0 2px #ffb18188;
+  background: #ffecd9 !important;
+}
+
+/* "Add to Cart" orange button */
+.orange-btn {
+  background-color: #ff7043 !important;    /* Medium orange */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 7px;
+  font-weight: bold;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(255,112,67,0.10);
+}
+
+.orange-btn:hover,
+.orange-btn:focus {
+  background: #ff5722 !important;         /* Deeper orange on hover */
+  color: #fff !important;
+  box-shadow: 0 3px 12px #ff704355;
+}
+
+/* Remove the green bg-success everywhere if present */
+.bg-success, .btn-success {
+  background: none !important;
+  color: inherit !important;
+}
