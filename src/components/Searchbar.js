@@ -5,12 +5,12 @@ export default function SearchBar({ value, onChange }) {
   return (
     <div className="search_bar ms-3">
       <span className="search_icon">
-        <SearchIcon fontSize="small" />
+        {/* <SearchIcon fontSize="small" /> */}
       </span>
       <input
         className="search_input"
         type="text"
-        placeholder="Search for food, category, etc."
+        placeholder="Search for food,category etc."
         value={value}
         onChange={onChange}
       />

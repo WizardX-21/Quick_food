@@ -102,19 +102,29 @@ export default function Home() {
         </div>
       </div>
 
-      {/* --- FOOD LISTINGS, grouped by category unless searching --- */}
-      <div className='container'>
+      {/* --- FOOD LISTINGS, centered in the body --- */}
+      <div className='w-100 d-flex flex-column align-items-center'>
         {search.length === 0 && !selectedSuggestion ? (
           foodCat.length > 0 ?
             foodCat.map((data) => (
-              <div className='row mb-3' key={data._id || data.CategoryName}>
-                <div className='fs-3 m-3'>{data.CategoryName}</div>
-                <hr id="hr-success" style={{ height: "4px", backgroundImage: "-webkit-linear-gradient(left,rgb(0, 255, 137),rgb(0, 0, 0))" }} />
+              <div
+                className='row mb-3 justify-content-center centered-row'
+                key={data._id || data.CategoryName}
+                style={{ maxWidth: "1200px", width: "100%" }}
+              >
+                <div className='fs-3 m-3 text-center w-100' style={{ fontWeight: 600 }}>
+                  {data.CategoryName}
+                </div>
+                <hr id="hr-success" style={{
+                  height: "4px",
+                  backgroundImage: "-webkit-linear-gradient(left,rgb(0, 255, 137),rgb(0, 0, 0))",
+                  marginBottom: "30px"
+                }} />
                 {foodItems.length > 0 ?
                   foodItems
                     .filter((items) => items.CategoryName === data.CategoryName)
                     .map(filterItems => (
-                      <div key={filterItems._id || filterItems.id} className='col-12 col-md-6 col-lg-3'>
+                      <div key={filterItems._id || filterItems.id} className='col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-4'>
                         <Card
                           foodName={filterItems.name}
                           item={filterItems}
@@ -123,14 +133,14 @@ export default function Home() {
                         />
                       </div>
                     ))
-                  : <div>No Such Data</div>}
+                  : <div className="text-center">No Such Data</div>}
               </div>
             )) : null
         ) : (
           // If searching, display only filtered items (all in one row)
-          <div className="row mt-4">
+          <div className="row mt-4 justify-content-center centered-row" style={{ maxWidth: "1200px", width: "100%" }}>
             {displayItems.length > 0 ? displayItems.map(item => (
-              <div key={item._id || item.id} className='col-12 col-md-6 col-lg-3'>
+              <div key={item._id || item.id} className='col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-4'>
                 <Card
                   foodName={item.name}
                   item={item}

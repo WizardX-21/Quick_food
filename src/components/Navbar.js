@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -6,71 +6,62 @@ import { useCart } from './ContextReducer';
 import Modal from '../Modal';
 import Cart from '../screens/Cart';
 
-export default function Navbar({
-  searchValue,
-  onSearchChange,
-  recommendations = [],
-  onSelectRecommendation
-}) {
-  const [cartView, setCartView] = React.useState(false);
-  let navigate = useNavigate();
+export default function Navbar(props) {
+  const [cartView, setCartView] = useState(false);
   const items = useCart();
+  let navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate("/login");
   };
 
+  // For searchbar recommendations (if provided as props)
+  const { searchValue, onSearchChange, recommendations = [], onSelectRecommendation } = props;
+  const [showDropdown, setShowDropdown] = useState(false);
+
   return (
     <>
-      <style>
-        {`
+      <style>{`
         .navbar-quickfood {
-          background: #ff7043;
+          background: #ff774b;
           color: #fff;
           position: sticky;
           top: 0;
-          width: 100%;
+          width: 100vw;
           z-index: 1000;
           box-shadow: 0 2px 10px rgba(39,48,67,0.08);
           padding: 0;
-          min-height: 64px;
+          min-height: 60px;
         }
         .navbar-flex {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 100%;
+          padding: 0 10px;
           max-width: 100vw;
-          margin: 0;
-          padding: 0 16px;
-          min-height: 64px;
+          height: 60px;
         }
         .navbar-brand {
-          font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
+          font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
           font-weight: bold;
-          font-size: 1.45rem;
+          font-size: 1.1rem;
           color: #fff;
-          letter-spacing: 1.4px;
-          margin-right: 18px;
+          letter-spacing: 1.1px;
           padding: 0;
-        }
-        .search-bar-wrap {
-          position: relative;
-          width: 350px;
-          margin-right: 18px;
+          margin: 0 10px 0 0;
+          white-space: nowrap;
         }
         .search-form-myntra {
           display: flex;
           align-items: center;
-          min-width: 210px;
-          width: 100%;
+          width: 210px;
+          margin: 0 10px;
+          position: relative;
         }
         .input-group-myntra {
           position: relative;
           width: 100%;
-          display: flex;
-          align-items: center;
         }
         .input-icon {
           position: absolute;
@@ -83,7 +74,7 @@ export default function Navbar({
         }
         .input-myntra {
           width: 100%;
-          height: 38px;
+          height: 36px;
           border-radius: 22px;
           border: none;
           background: #fff;
@@ -94,54 +85,52 @@ export default function Navbar({
           outline: none;
           transition: box-shadow 0.13s;
         }
+        .input-myntra::placeholder {
+          font-size: 0.87rem;
+          color: #888;
+          opacity: 1;
+        }
         .input-myntra:focus {
           box-shadow: 0 2px 10px rgba(39,48,67,0.10);
         }
-        .search-suggestions {
+        .search-dropdown {
           position: absolute;
-          top: 45px;
+          top: 40px;
           left: 0;
           width: 100%;
           background: #fff;
-          color: #222;
-          z-index: 999;
-          border-radius: 0 0 8px 8px;
-          box-shadow: 0 4px 12px rgba(39,48,67,0.08);
-          padding: 0;
-          margin: 0;
-          list-style: none;
-          max-height: 270px;
+          border-radius: 0 0 10px 10px;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+          z-index: 99;
+          max-height: 220px;
           overflow-y: auto;
         }
-        .search-suggestions li {
-          padding: 10px 18px;
+        .search-dropdown-item {
+          padding: 7px 16px;
           cursor: pointer;
-          font-size: 1rem;
-          transition: background 0.18s;
+          color: #282c3f;
+          font-size: 0.96rem;
         }
-        .search-suggestions li:hover {
-          background: #ffe5d0;
-          color: #d84315;
+        .search-dropdown-item:hover {
+          background: #fff3ee;
         }
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 32px;
-          margin-left: 24px;
-          margin-right: 24px;
+          gap: 17px;
+          margin: 0 5px;
         }
         .navbar-links .nav-link {
           color: #fff;
           font-weight: 600;
-          font-size: 1.05rem;
-          letter-spacing: 0.02em;
-          padding: 4px 8px;
-          transition: color 0.16s;
+          font-size: 1.04rem;
+          padding: 4px 5px;
+          transition: color 0.14s;
           text-decoration: none;
           position: relative;
         }
         .navbar-links .nav-link:hover, .navbar-links .nav-link.active {
-          color: #232323;
+          color: #262626;
         }
         .navbar-links .nav-link::after {
           content: "";
@@ -149,11 +138,11 @@ export default function Navbar({
           height: 2px;
           width: 0;
           background: #fff;
-          transition: width 0.23s cubic-bezier(.4,0,.2,1);
+          transition: width 0.22s;
           position: absolute;
           left: 0;
           bottom: -2px;
-          border-radius: 3px;
+          border-radius: 2px;
         }
         .navbar-links .nav-link:hover::after,
         .navbar-links .nav-link.active::after {
@@ -162,10 +151,10 @@ export default function Navbar({
         .auth-cart-buttons {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 7px;
         }
         .auth-cart-buttons .btn {
-          padding: 7px 16px;
+          padding: 7px 15px;
           font-weight: 600;
           border-radius: 7px;
           font-size: 1rem;
@@ -176,7 +165,7 @@ export default function Navbar({
           border: none;
         }
         .auth-cart-buttons .btn-light:hover {
-          background: #ffe4ec;
+          background: #ffd9c7;
         }
         .auth-cart-buttons .btn-danger {
           background: #ff385c;
@@ -184,65 +173,74 @@ export default function Navbar({
           border: none;
         }
         .auth-cart-buttons .btn-danger:hover {
-          background: #e02a4a;
+          background: #d62b4b;
         }
         .MuiBadge-badge {
-          background-color: #03a9f4 !important;
+          background-color: #ff385c !important;
         }
-        @media (max-width: 900px) {
-          .navbar-flex { flex-wrap: wrap; gap: 5px;}
-          .search-bar-wrap { width: 220px;}
-          .search-form-myntra { min-width: 110px; width: 160px; margin-right: 6px;}
-          .navbar-links { gap: 15px; margin-left: 6px; margin-right: 6px;}
+        /* Responsive styles */
+        @media (max-width: 950px) {
+          .navbar-flex { flex-wrap: wrap; height: auto; padding: 0 4px; }
+          .search-form-myntra { width: 150px; margin: 0 3px;}
+          .navbar-links { gap: 10px; }
+          .navbar-brand { font-size: 1rem; margin-right: 0;}
         }
         @media (max-width: 700px) {
-          .navbar-flex { flex-direction: column; gap: 7px; min-height: 0; }
-          .navbar-brand { margin-right: 0; margin-bottom: 5px;}
-          .search-bar-wrap { margin: 8px 0; width: 97%; }
-          .navbar-links { gap: 9px; margin: 4px 0;}
-          .auth-cart-buttons { width: 100%; justify-content: center;}
+          .navbar-flex { flex-direction: column; height: auto; gap: 3px;}
+          .navbar-brand { margin-bottom: 3px; }
+          .search-form-myntra { width: 97%; margin: 5px 0 0 0;}
+          .navbar-links { margin: 2px 0 2px 0; gap: 10px;}
+          .auth-cart-buttons { width: 100%; justify-content: center; margin-top: 4px;}
         }
-        `}
-      </style>
+        @media (max-width: 500px) {
+          .navbar-flex { flex-direction: column; padding: 0 1px; height: auto; }
+          .navbar-brand { font-size: 0.97rem; }
+          .search-form-myntra { width: 97vw; margin-top: 5px; }
+          .navbar-links { font-size: 0.98rem; gap: 5px;}
+        }
+      `}</style>
       <nav className="navbar-quickfood">
         <div className="navbar-flex">
-          {/* Brand */}
-          <Link className="navbar-brand" to="/">
-            QuickFood
-          </Link>
-          {/* Search Bar & Suggestions */}
-          <div className="search-bar-wrap">
-            <form className="search-form-myntra" onSubmit={e => e.preventDefault()}>
-              <div className="input-group-myntra">
-                <span className="input-icon">
-                  {/* Simple search icon */}
-                  <svg width="19" height="19" fill="none" stroke="#696e79" strokeWidth="2" viewBox="0 0 20 20">
-                    <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" />
-                    <line x1="14.3" y1="14.3" x2="19" y2="19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                </span>
-                <input
-                  type="text"
-                  className="input-myntra"
-                  placeholder="Search for food, category, etc."
-                  value={searchValue}
-                  onChange={onSearchChange}
-                  aria-label="Search for food"
-                  autoComplete="off"
-                />
-              </div>
-            </form>
-            {recommendations.length > 0 && (
-              <ul className="search-suggestions">
-                {recommendations.map((item, idx) => (
-                  <li key={item._id || idx} onClick={() => onSelectRecommendation(item)}>
-                    {item.name} <span style={{ fontSize: 13, color: "#8d99ae" }}>({item.CategoryName})</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          {/* Horizontal Links */}
+          <Link className="navbar-brand" to="/">QuickFood</Link>
+          <form
+            className="search-form-myntra"
+            autoComplete="off"
+            onSubmit={e => e.preventDefault()}
+            style={{ position: "relative" }}
+          >
+            <div className="input-group-myntra">
+              <span className="input-icon">
+                <svg width="19" height="19" fill="none" stroke="#696e79" strokeWidth="2" viewBox="0 0 20 20">
+                  <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" />
+                  <line x1="14.3" y1="14.3" x2="19" y2="19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </span>
+              <input
+                type="text"
+                className="input-myntra"
+                placeholder="Search for food,category"
+                value={searchValue || ''}
+                onChange={onSearchChange}
+                onFocus={() => setShowDropdown(true)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 180)}
+                aria-label="Search for food"
+                autoComplete="off"
+              />
+              {showDropdown && recommendations && recommendations.length > 0 && (
+                <div className="search-dropdown">
+                  {recommendations.map((item, idx) => (
+                    <div
+                      key={item._id || idx}
+                      className="search-dropdown-item"
+                      onMouseDown={() => onSelectRecommendation && onSelectRecommendation(item)}
+                    >
+                      {item.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </form>
           <div className="navbar-links">
             <Link className="nav-link" to="/">Home</Link>
             {localStorage.getItem("token") && (
@@ -250,7 +248,6 @@ export default function Navbar({
             )}
             <Link className="nav-link" to="/contact">Contact</Link>
           </div>
-          {/* Auth & Cart Buttons */}
           <div className="auth-cart-buttons">
             {!localStorage.getItem("token") ? (
               <>
