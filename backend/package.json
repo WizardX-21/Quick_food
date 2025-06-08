@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Arshdeep Singh",
+  "author": "Rrajesh Kharal",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
