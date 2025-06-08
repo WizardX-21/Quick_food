@@ -6,9 +6,14 @@ const { connectToMongo } = require('./db');
 
 // Enable CORS for frontend requests
 app.use(cors({
-  origin: 'http://localhost:3000', // your frontend URL
+  origin: [
+    'http://localhost:3000',                                 // Local dev
+    'https://quick-food-git-main-rrajesh-kharals-projects.vercel.app', // Vercel production (adjust to your domain!)
+    'https://quick-food-eight.vercel.app'                    // Your other Vercel domain (if exists)
+  ],
   credentials: true
 }));
+
 
 // Parse JSON bodies
 app.use(express.json());
