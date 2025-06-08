@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import Navbar from '../components/Navbar';
 
+import { API_BASE_URL } from "../api"; 
+
 export default function Signup() {
   const [credentials, setCredentials] = useState({ name: "", email: "", password: "", geolocation: "" })
   let [address, setAddress] = useState("");
@@ -20,7 +22,7 @@ export default function Signup() {
       return [latitude, longitude]
     })
     let [lat, long] = latlong
-    const response = await fetch("http://localhost:5000/api/auth/getlocation", {
+    const response = await fetch(`${API_BASE_URL}/api/auth/getlocation`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

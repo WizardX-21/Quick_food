@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from '../components/Card';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import { API_BASE_URL } from "../api";   // <-- Import the API URL
 
 export default function Home() {
   const [foodCat, setFoodCat] = useState([]);
@@ -12,7 +13,7 @@ export default function Home() {
 
   // Fetch food data from backend
   const loadFoodItems = async () => {
-    let response = await fetch("http://localhost:5000/api/auth/foodData", {
+    let response = await fetch(`${API_BASE_URL}/api/auth/foodData`, {   // <-- fixed quote
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

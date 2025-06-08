@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar';
+
+import { API_BASE_URL } from "../api";
+
 import { useNavigate, Link } from 'react-router-dom'
 export default function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" })
@@ -7,7 +10,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
       // credentials: 'include',
       // Origin:"http://localhost:3000/login",
       method: 'POST',
